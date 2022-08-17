@@ -28,10 +28,14 @@ async function database_get() {
 }
 
 app.get('/api/', (req, res) => {
-  let data = {};
+  const jsonData = {
+    data: []
+  }
   database_get().then((value) => {
-    data = value;
-    res.send(JSON.stringify(data))
+    value.rows.forEach((v, i) => {
+      jsonData.data.push(v);
+    })
+    res.send(jsonData);
   });
 
   // console.log(db_url);
