@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const { Client } = require('pg');
 const path = require('path');
 const PORT = process.env.PORT || 5000;
@@ -9,6 +10,7 @@ const app = express()
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
   .get('/', (req, res) => res.render('pages/index'))
+  .use(cors({origin: '*'}))
 
 async function database_get() {
   const client = new Client({
