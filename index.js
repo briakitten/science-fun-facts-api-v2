@@ -1,11 +1,12 @@
 const express = require('express');
 const cors = require('cors');
+const body_parser = require('body-parser');
 const { Client } = require('pg');
 const path = require('path');
 const PORT = process.env.PORT || 5000;
 
 // url from heroku PostgreSQL database
-const db_url = process.env.DATABASE_URL;
+const db_url = process.env.DATABASE_URL || "postgres://rleygqqnszisrp:593bbc0312183b7f9e82f302f9f54bca0229f04d859763b9496967136b2ae094@ec2-44-206-11-200.compute-1.amazonaws.com:5432/d3531orgrmf8m7";
 
 const app = express()
   .use(express.static(path.join(__dirname, 'public')))
@@ -76,8 +77,9 @@ app.get('/api/', (req, res) => {
 });
 
 // PUT request/response
-app.put('/api/facts/:id', (req, res) => {
-  res.send('fact ' + req.params.id + ' with body: ' + req.body.fact);
+app.put('/api/facts/:id', body_parser.json(), (req, res) => {
+  console.log(req.body);
+  res.send('fact ' + req.params.id);
 });
 
 // POST request/response
